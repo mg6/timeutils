@@ -1,19 +1,31 @@
 #!/usr/bin/env python3
 """
 Usage:
-    davc.py [--url URL] [--name CALNAME] [--user USER] [--password PASSWORD]
+    davc.py [--url URL] [--name CALNAME] [--user USER] [--password PASSWORD] [--date DATE]
 
 Options:
     --url URL
     -n, --name CALNAME
     -u, --user USER
     -p, --password PASSWORD
+    -d, --date DATE
     -h, --help
 
 """
+import arrow
 import caldav
 import docopt
 import sys
+
+
+def parse_user_date(date, default=None):
+    if not date:
+        return default
+
+    date = arrow.get(date, ['YYYYMMDD', 'YYMMDD', 'MMDD'])
+    if date.year <= 1:
+        date = date.replace(year=arrow.now().year)
+    return date
 
 
 def main(args):
@@ -22,6 +34,9 @@ def main(args):
     client = caldav.DAVClient(url, username=args['--user'], password=args['--password'])
     principal = client.principal()
     calendars = principal.calendars()
+
+    date_start = parse_user_date(args['--date'], arrow.now())
+    date_end = date_start.shift(days=+1)
 
     if not args['--name']:
         for cal in calendars:
@@ -36,8 +51,13 @@ def main(args):
     if not selected_cal:
         raise ValueError('Cannot find calendar:', args['--name'])
 
-    for event in selected_cal.events():
-        print(event.data)
+    if not date_start:
+        for event in selected_cal.events():
+            print(event.data)
+    else:
+        for event in selected_cal.date_search(date_start.date(), date_end.date()):
+            print(event.data)
+
 
 
 if __name__ == '__main__':
