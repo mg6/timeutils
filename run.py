@@ -197,9 +197,7 @@ def parse_user_date(date, default=None):
 def parse_args():
     args = docopt.docopt(__doc__)
     args['--from'] = parse_user_date(args['--from'])
-    args['--to'] = parse_user_date(args['--to'], arrow.now())
-    if args['--to'] and args['--from'] and args['--to'] < args['--from']:
-        args['--to'] = args['--to'].shift(years=+1)
+    args['--to'] = parse_user_date(args['--to'], args['--from'].shift(days=+1))
     return args
 
 
