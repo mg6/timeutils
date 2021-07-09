@@ -1,0 +1,11 @@
+toggl:
+  stage: build
+  image: python:3.9-slim
+  before_script:
+    - export PATH="$PATH:$HOME/.local/bin"
+    - apt-get update -qq
+    - apt-get install -qq make curl
+  script:
+    - pip install --user pipenv
+    - pipenv sync
+    - pipenv run make today CALDAV_USER=$CALDAV_USER CALDAV_PASS=$CALDAV_PASS TOGGL_API_TOKEN=$TOGGL_API_TOKEN

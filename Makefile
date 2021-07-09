@@ -2,8 +2,7 @@ TODAY := $(shell date +"%Y%m%d")
 
 CALDAV_USER :=
 CALDAV_PASS :=
-
-TOGGL_API_TOKEN := 5e7f5d7df80fcd531dcbdddd8ef69508
+TOGGL_API_TOKEN :=
 
 export
 
