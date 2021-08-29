@@ -27,3 +27,5 @@ today:
 	$(MAKE) -s clean
 	$(MAKE) -s ics
 	$(MAKE) -s $(CALENDAR_IN)
+
+-include private.mk
