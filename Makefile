@@ -7,15 +7,18 @@ TOGGL_API_TOKEN :=
 -include .env
 export
 
+.PHONY: all
 all: today
 
 
 CALENDAR_IN = $(patsubst cal.%.in,%.toggl,$(wildcard cal.*.in))
 
+.PHONY: clean
 clean:
 	- rm *.ics
 	- rm *.toggl
 
+.PHONY: ics
 ics:
 
 %.toggl: cal.%.ics | cal.%.in
@@ -23,6 +26,7 @@ ics:
 	python run.py -f $< --from $(TODAY) --format '{toggl}' > $@
 	./toggl.sh $| < $@
 
+.PHONY: today
 today:
 	$(MAKE) -s clean
 	$(MAKE) -s ics
