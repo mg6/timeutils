@@ -4,6 +4,7 @@ CALDAV_USER :=
 CALDAV_PASS :=
 TOGGL_API_TOKEN :=
 
+-include .env
 export
 
 all: today
