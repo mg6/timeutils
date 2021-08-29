@@ -8,7 +8,7 @@ TOGGL_API_TOKEN :=
 export
 
 .PHONY: all
-all: today
+all:
 
 
 CALENDAR_IN = $(patsubst cal.%.in,%.toggl,$(wildcard cal.*.in))
