@@ -14,12 +14,16 @@ CALENDAR_IN = $(patsubst cal.%.in,%.toggl,$(wildcard cal.*.in))
 
 clean:
 	- rm *.ics
+	- rm *.toggl
 
 ics:
 
-%.toggl: cal.%.ics
-	TOGGL_PROJECT=$(patsubst %.toggl,%,$@) python run.py -f $< --from $(TODAY) --format '{toggl}' | ./toggl.sh
+%.toggl: cal.%.ics | cal.%.in
+	$(eval TOGGL_PROJECT := $(patsubst %.toggl,%,$@))
+	python run.py -f $< --from $(TODAY) --format '{toggl}' > $@
+	./toggl.sh $| < $@
 
 today:
-	$(MAKE) -s clean ics
+	$(MAKE) -s clean
+	$(MAKE) -s ics
 	$(MAKE) -s $(CALENDAR_IN)

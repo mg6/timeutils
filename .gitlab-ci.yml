@@ -4,7 +4,7 @@ toggl:
   before_script:
     - export PATH="$PATH:$HOME/.local/bin"
     - apt-get update -qq
-    - apt-get install -qq make curl
+    - apt-get install -qq make curl jq
   script:
     - pip install --user pipenv
     - pipenv sync
