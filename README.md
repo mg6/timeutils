@@ -86,4 +86,4 @@ Send me some kudos at @mg6!
 
 ## License
 
-[Apache License 2.0](LICENSING)
+[Apache License 2.0](LICENSE)
